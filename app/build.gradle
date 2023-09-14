@@ -2,11 +2,15 @@ plugins {
     id 'com.android.application'
 }
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.aniketjain.weatherapp"
+        applicationId "com.nishankswamy.weatherapp"
         minSdk 19
         targetSdk 33
         versionCode 5
@@ -14,6 +18,8 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "OPENWEATHER_API_KEY", apikeyProperties['OPENWEATHER_API_KEY'])
     }
 
     buildTypes {
