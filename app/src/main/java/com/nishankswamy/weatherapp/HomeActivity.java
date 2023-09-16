@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,7 +32,7 @@ import com.android.volley.toolbox.Volley;
 import com.nishankswamy.weatherapp.adapter.DaysAdapter;
 import com.nishankswamy.weatherapp.databinding.ActivityHomeBinding;
 import com.nishankswamy.weatherapp.location.LocationCord;
-import com.nishankswamy.weatherapp.toast.Toaster;
+// import com.nishankswamy.weatherapp.toast.Toaster;
 import com.nishankswamy.weatherapp.update.UpdateUI;
 import com.nishankswamy.weatherapp.url.URL;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -171,7 +172,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private void searchCity(String cityName) {
         if (cityName == null || cityName.isEmpty()) {
-            Toaster.errorToast(this, "Please enter the city name");
+//            Toaster.errorToast(this, "Please enter the city name");
+            Toast toast = Toast.makeText(this,"Please enter city", Toast.LENGTH_SHORT);
+            toast.show();
         } else {
             setLatitudeLongitudeUsingCity(cityName);
         }
@@ -205,7 +208,10 @@ public class HomeActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Toaster.errorToast(this, "Please enter the correct city name"));
+        }, error -> {Toast toast = Toast.makeText(this,"Please enter the correct city name", Toast.LENGTH_SHORT);
+            toast.show();
+            // Toaster.errorToast(this, "Please enter the correct city name")
+        });
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -286,7 +292,9 @@ public class HomeActivity extends AppCompatActivity {
     private void checkConnection() {
         if (!isInternetConnected(this)) {
             hideMainLayout();
-            Toaster.errorToast(this, "Please check your internet connection");
+            Toast toast = Toast.makeText(this,"Please check your internet connection", Toast.LENGTH_SHORT);
+            toast.show();
+            // Toaster.errorToast(this, "Please check your internet connection");
         } else {
             hideProgressBar();
             getDataUsingNetwork();
@@ -298,10 +306,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toaster.successToast(this, "Permission Granted");
+                Toast toast = Toast.makeText(this,"Permission Granted", Toast.LENGTH_SHORT);
+                toast.show();
+                //  Toaster.successToast(this, "Permission Granted");
                 getDataUsingNetwork();
             } else {
-                Toaster.errorToast(this, "Permission Denied");
+                Toast toast = Toast.makeText(this,"Permission Denied", Toast.LENGTH_SHORT);
+                toast.show();
+               // Toaster.errorToast(this, "Permission Denied");
                 finish();
             }
         }
@@ -322,7 +334,9 @@ public class HomeActivity extends AppCompatActivity {
                 try {
                     appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, HomeActivity.this, WEATHER_FORECAST_APP_UPDATE_REQ_CODE);
                 } catch (IntentSender.SendIntentException exception) {
-                    Toaster.errorToast(this, "Update Failed");
+                    Toast toast = Toast.makeText(this,"Update Failed", Toast.LENGTH_SHORT);
+                    toast.show();
+                   //  Toaster.errorToast(this, "Update Failed");
                 }
             }
         });
